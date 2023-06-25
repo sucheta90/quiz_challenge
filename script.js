@@ -156,4 +156,18 @@ startBtn.addEventListener("click", startQuiz);
 function startQuiz() {
   container.setAttribute("class", "hide");
   window.alert("Clicked");
+  setTimer();
+}
+
+function setTimer() {
+  var myInterval = setInterval(() => {
+    timeRemaining--;
+    console.log(timeRemaining);
+
+    timer.textContent = parseInt(timer.textContent) + 1;
+
+    if (timeRemaining === 0) {
+      clearInterval(myInterval);
+    }
+  }, 1000);
 }
