@@ -1,12 +1,19 @@
-var body = document.body;
-var header = document.body.children[0];
-var main = document.body.children[1];
-var footer = document.body.children[2];
+var body = document.body; // The body element
+var header = document.body.children[0]; // Header
+var main = document.body.children[1]; // Main
+var footer = document.body.children[2]; // footer
+var showHighScore = document.createElement("a"); // HighScore link
+var showTimer = document.createElement("span"); // timer span
+var timerHeader = document.createElement("h3"); // timer headiing
+var timer = document.createElement("h3"); // actual timer
+let finalScore = parseInt(timer.textContent);
+let questionsAnswered = 10;
 
 let timeRemaining = 120;
 
 body.setAttribute("style", "color: #001217");
 
+// All questions
 let questionsList = [
   {
     question: "What does HTML stand for?",
@@ -30,34 +37,23 @@ let questionsList = [
   },
   {
     question: "What is the correct HTML element for inserting a line break?",
-    options: [
-      "Hyperlink and Text Markup Language",
-      "Hyper Text Markup Language",
-      "Home Tool Markup Language",
-      "Hyper Text Management Link",
-    ],
-    correctAns: "Hyper Text Markup Language",
+    options: ["<break>", "<br/>", "<lb>", "<st>"],
+    correctAns: "<br/>",
   },
   {
-    question: "Choose the correct HTML element to define important text?",
-    options: [
-      "Hyperlink and Text Markup Language",
-      "Hyper Text Markup Language",
-      "Home Tool Markup Language",
-      "Hyper Text Management Link",
-    ],
-    correctAns: "Hyper Text Markup Language",
+    question: "How can you make a numbered list?",
+    options: ["<list>", "<dl>", "<ol>", "<ul>"],
+    correctAns: "<ol>",
   },
   {
-    question:
-      "What is the correct HTML for referring to an external style sheet??",
+    question: "What does CSS stand for?",
     options: [
       "Creative Style Sheets",
       "Cascading Style Sheets",
       "Computer Style Sheets",
       "Colorful Style Sheets",
     ],
-    correctAns: "Hyper Text Markup Language",
+    correctAns: "Cascading Style Sheets",
   },
   {
     question:
@@ -78,7 +74,13 @@ let questionsList = [
       "' this is a comment",
       "// this is a comment",
     ],
-    correctAns: "/* this is a comment */",
+    correctAns: "// this is a comment",
+  },
+  {
+    question:
+      "Which CSS property is used to change the text color of an element?",
+    options: ["fgcolor", "color", "text-color", "font-color"],
+    correctAns: "color",
   },
   {
     question: "Inside which HTML element do we put the JavaScript?",
@@ -86,24 +88,15 @@ let questionsList = [
     correctAns: "<script>",
   },
   {
-    question: "What does HTML stand for?",
+    question:
+      "What is the correct syntax for referring to an external script called 'xxx.js'?",
     options: [
-      "Hyperlink and Text Markup Language",
-      "Hyper Text Markup Language",
-      "Home Tool Markup Language",
-      "Hyper Text Management Link",
+      "<script href='abc.js'>",
+      "<script name='abc.js'",
+      "<script src='abc.js'",
+      "<link href='abc.js'>",
     ],
-    correctAns: "Hyper Text Markup Language",
-  },
-  {
-    question: "What does HTML stand for?",
-    options: [
-      "Hyperlink and Text Markup Language",
-      "Hyper Text Markup Language",
-      "Home Tool Markup Language",
-      "Hyper Text Management Link",
-    ],
-    correctAns: "Hyper Text Markup Language",
+    correctAns: "<script src='abc.js'",
   },
 ];
 
@@ -113,24 +106,21 @@ header.setAttribute(
   "display:flex; flex-direction: row-reverse;align-items:center;justify-content:space-between; padding:0 2em ;"
 );
 //Anchor tag to show high score
-var showHighScore = document.createElement("a");
 showHighScore.textContent = "View High Score";
 showHighScore.setAttribute("href", "./");
 header.appendChild(showHighScore);
 
 //Timer section
-var showTimer = document.createElement("span");
 showTimer.setAttribute("class", "timer");
-var timerHeader = document.createElement("h3");
 timerHeader.textContent = "Timer: ";
-var timer = document.createElement("h3");
-timer.textContent = 0;
+timer.textContent = 0; // timer is initialez at 0
 showTimer.append(timerHeader);
 showTimer.append(timer);
 header.appendChild(showTimer);
 showHighScore.textContent = "View High Score";
 showHighScore.setAttribute("href", "./");
 header.appendChild(showHighScore);
+
 // This container will show the content of the quiz challenge dynamically
 var container = document.createElement("div");
 container.setAttribute("class", "container");
@@ -154,20 +144,62 @@ container.appendChild(startBtn);
 startBtn.addEventListener("click", startQuiz);
 
 function startQuiz() {
+  let index = 0;
+  let hasAnswered = false;
   container.setAttribute("class", "hide");
-  window.alert("Clicked");
   setTimer();
+  askQuestions(index, hasAnswered);
 }
 
 function setTimer() {
-  var myInterval = setInterval(() => {
+  var quizInterval = setInterval(() => {
     timeRemaining--;
     console.log(timeRemaining);
 
     timer.textContent = parseInt(timer.textContent) + 1;
 
     if (timeRemaining === 0) {
-      clearInterval(myInterval);
+      clearInterval(quizInterval);
+    } else if (timer.textContent === 0) {
+      clearInterval(quizInterval);
+    } else if (questionsAnswered === 0) {
+      clearInterval(quizInterval);
     }
+    // main.removeChild(questContainer);
+    console.log(`Game Over`);
   }, 1000);
+}
+
+function askQuestions(index, hasAnswered) {
+  if (index < 10) {
+    var questContainer = document.createElement("div");
+    main.appendChild(questContainer);
+    questContainer.setAttribute("class", "container");
+    var showQuestion = document.createElement("h2"); // p tag to show questions.
+    showQuestion.textContent = questionsList[index].question;
+    questContainer.appendChild(showQuestion);
+
+    for (let i = 0; i < 4; i++) {
+      var answer = document.createElement("button");
+      answer.textContent = questionsList[index].options[i];
+      answer.addEventListener("click", (e) => {
+        validateAnswer(e, index, hasAnswered, questContainer);
+      });
+      questContainer.appendChild(answer);
+    }
+    hasAnswered = false;
+  }
+}
+
+// Validates user's choice to match the correct option, and deduct score/timer-value, removes the questContainer,
+function validateAnswer(e, index, hasAnswered, questContainer) {
+  if (e.target.textContent === questionsList[index].correctAns) {
+  } else {
+    timer.textContent = parseInt(timer.textContent) - 15; // deducts 15sec for each wrong answers
+  }
+  main.removeChild(questContainer); // removes the questContainer dynamically
+  hasAnswered = true; // changes flag to boolean to move on to the next question
+  index++; // adds 1 to the index
+  questionsAnswered--; // keeps a track of questions answered.
+  askQuestions(index, hasAnswered); // calls askQuestion to show the next question in line
 }
