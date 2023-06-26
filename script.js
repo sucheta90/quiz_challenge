@@ -6,12 +6,11 @@ var showHighScore = document.createElement("a"); // HighScore link
 var showTimer = document.createElement("span"); // timer span
 var timerHeader = document.createElement("h3"); // timer headiing
 var timer = document.createElement("h3"); // actual timer
-let finalScore = parseInt(timer.textContent);
+let timeRemaining = 100; // tracks timer
+let finalScore = timeRemaining;
 let questionsAnswered = 10;
 
-let timeRemaining = 120;
-
-body.setAttribute("style", "color: #001217");
+body.setAttribute("style", "color: #240220; background-color: #e4dafa");
 
 // All questions
 let questionsList = [
@@ -72,9 +71,9 @@ let questionsList = [
       "//this is a comment",
       "/* this is a comment */",
       "' this is a comment",
-      "// this is a comment",
+      "<!-- this is a comment -->",
     ],
-    correctAns: "// this is a comment",
+    correctAns: "/* this is a comment */",
   },
   {
     question:
@@ -113,7 +112,7 @@ header.appendChild(showHighScore);
 //Timer section
 showTimer.setAttribute("class", "timer");
 timerHeader.textContent = "Timer: ";
-timer.textContent = 0; // timer is initialez at 0
+timer.textContent = timeRemaining; // timer is initialez at 100
 showTimer.append(timerHeader);
 showTimer.append(timer);
 header.appendChild(showTimer);
@@ -134,13 +133,14 @@ container.appendChild(loadingHeader);
 // Loading message/ instruction
 var loadingMessage = document.createElement("p");
 loadingMessage.textContent =
-  "Try to answer tehe following qiestions within the time limit. Keep in mind that incorrect answers will penalize your score/time by tem seconds!";
+  "Try to answer tehe following qiestions within the time limit. Keep in mind that incorrect answers will penalize your score/time by 15 seconds!";
 container.appendChild(loadingMessage);
 
 //Start button
 var startBtn = document.createElement("button");
 startBtn.textContent = "Start Quiz";
 container.appendChild(startBtn);
+startBtn.setAttribute("class", "button");
 startBtn.addEventListener("click", startQuiz);
 
 function startQuiz() {
@@ -154,13 +154,9 @@ function startQuiz() {
 function setTimer() {
   var quizInterval = setInterval(() => {
     timeRemaining--;
-    console.log(timeRemaining);
-
-    timer.textContent = parseInt(timer.textContent) + 1;
+    timer.textContent = timeRemaining;
 
     if (timeRemaining === 0) {
-      clearInterval(quizInterval);
-    } else if (timer.textContent === 0) {
       clearInterval(quizInterval);
     } else if (questionsAnswered === 0) {
       clearInterval(quizInterval);
@@ -194,9 +190,13 @@ function askQuestions(index, hasAnswered) {
 // Validates user's choice to match the correct option, and deduct score/timer-value, removes the questContainer,
 function validateAnswer(e, index, hasAnswered, questContainer) {
   if (e.target.textContent === questionsList[index].correctAns) {
+  } else if (timeRemaining >= 15) {
+    timeRemaining -= 15;
+    timer.textContent = timeRemaining;
   } else {
-    timer.textContent = parseInt(timer.textContent) - 15; // deducts 15sec for each wrong answers
+    timer.textContent = timeRemaining;
   }
+
   main.removeChild(questContainer); // removes the questContainer dynamically
   hasAnswered = true; // changes flag to boolean to move on to the next question
   index++; // adds 1 to the index
