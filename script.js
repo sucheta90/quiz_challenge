@@ -9,13 +9,9 @@ var timer = document.createElement("h3"); // actual timer
 let timeRemaining = 90; // tracks timer
 let finalScore = timeRemaining;
 let questionsAnswered = 0;
-let endGame = false;
-var rightMessage = document.createElement("h3");
-var wrongMessage = document.createElement("h3");
 
-//setting message text
-rightMessage.textContent = `Right ! 👍 `;
-wrongMessage.textContent = `Wrong! 👎 `;
+body.setAttribute("style", "color: #240220; background-color: #e4dafa");
+
 // All questions
 let questionsList = [
   {
@@ -116,7 +112,7 @@ header.appendChild(showHighScore);
 //Timer section
 showTimer.setAttribute("class", "timer");
 timerHeader.textContent = "Timer: ";
-timer.textContent = timeRemaining; // timer is initialez at 100
+timer.textContent = 0; // timer is initialez at 100
 showTimer.append(timerHeader);
 showTimer.append(timer);
 header.appendChild(showTimer);
@@ -148,13 +144,14 @@ startBtn.setAttribute("class", "button");
 startBtn.addEventListener("click", startQuiz);
 
 function startQuiz() {
+  timer.innerText = timeRemaining;
   let index = 0;
-  let hasAnswered = false;
   container.setAttribute("class", "hide");
   setTimer();
-  askQuestions(index, hasAnswered);
+  askQuestions(index);
 }
 
+// This fuction sets the interval, tracks the timer/timeRemaining and clears Interval if the questions answered is 10 or timeremaininig is 0
 function setTimer() {
   var quizInterval = setInterval(() => {
     timeRemaining--;
@@ -167,11 +164,13 @@ function setTimer() {
       gameOverMessage.textContent = "Game Over";
       gameOverMessage.setAttribute("style", "text-align: center");
       body.appendChild(gameOverMessage);
+      main.innerHTML = "";
+      main.appendChild(gameOverMessage);
     }
   }, 1000);
 }
 
-function askQuestions(index, hasAnswered) {
+function askQuestions(index) {
   if (index < 10 && timeRemaining > 0) {
     var questContainer = document.createElement("div");
     main.appendChild(questContainer);
@@ -185,26 +184,27 @@ function askQuestions(index, hasAnswered) {
       answer.textContent = questionsList[index].options[i];
       answer.setAttribute("class", "choice");
       answer.addEventListener("click", (e) => {
-        validateAnswer(e, index, hasAnswered, questContainer);
+        validateAnswer(e, index);
       });
       questContainer.appendChild(answer);
     }
   }
-  hasAnswered = false;
 }
 
 // Validates user's choice to match the correct option, and deduct score/timer-value, removes the questContainer,
-function validateAnswer(e, index, hasAnswered, questContainer) {
-  if (e.target.textContent === questionsList[index].correctAns) {
+function validateAnswer(e, index) {
+  if (e.target.innerText === questionsList[index].correctAns) {
+    console.log("correct ans");
   } else if (timeRemaining >= 15) {
     timeRemaining -= 15;
   } else {
     endGame = true;
   }
-
-  main.removeChild(questContainer); // removes the questContainer dynamically
+  main.innerHTML = ""; // removes the questContainer dynamically
   hasAnswered = true; // changes flag to boolean to move on to the next question
   index++; // adds 1 to the index
   questionsAnswered++; // keeps a track of questions answered.
   askQuestions(index, hasAnswered); // calls askQuestion to show the next question in line
 }
+
+function setScore() {}

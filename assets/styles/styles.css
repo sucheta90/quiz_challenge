@@ -3,6 +3,11 @@
   --black: black;
   --light: #e4dafa;
   --white: #fff;
+  --darkText: #240220;
+}
+body {
+  color: var(--darkText);
+  background-color: var(--light);
 }
 body {
   color: #240220;
@@ -19,6 +24,9 @@ body {
   margin-top: 3em;
   text-align: center;
 }
+.container p {
+  width: 70%;
+}
 .timer {
   display: flex;
 }
@@ -34,9 +42,11 @@ body {
   padding: 0.5em 1.2em;
   border: none;
   border-radius: 5px;
+  font-weight: 600;
 }
 
 .choice {
+  text-align: left;
   width: 40%;
   background-color: #460b80;
   color: #fff;
@@ -47,8 +57,14 @@ body {
   border-radius: 5px;
 }
 
-.choice:hover {
+.choice:hover,
+.button:hover {
   background-color: var(--white);
   color: #240245;
   box-shadow: 0 4px 3px grey;
+}
+footer {
+  margin-top: 30vh;
+  width: 100%;
+  text-align: center;
 }
