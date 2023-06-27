@@ -8,7 +8,7 @@ var timerHeader = document.createElement("h3"); // timer headiing
 var timer = document.createElement("h3"); // actual timer
 let timeRemaining = 100; // tracks timer
 let finalScore = timeRemaining;
-let questionsAnswered = 10;
+let questionsRemaining = 10;
 
 body.setAttribute("style", "color: #240220; background-color: #e4dafa");
 
@@ -100,11 +100,9 @@ let questionsList = [
 ];
 
 // Header element and it children
-header.setAttribute(
-  "style",
-  "display:flex; flex-direction: row-reverse;align-items:center;justify-content:space-between; padding:0 2em ;"
-);
-//Anchor tag to show high score
+header.setAttribute("class", "header"); // class set to .header wit setAttribute method;
+
+//Anchor tag to show highScore
 showHighScore.textContent = "View High Score";
 showHighScore.setAttribute("href", "./");
 header.appendChild(showHighScore);
@@ -112,17 +110,14 @@ header.appendChild(showHighScore);
 //Timer section
 showTimer.setAttribute("class", "timer");
 timerHeader.textContent = "Timer: ";
-timer.textContent = timeRemaining; // timer is initialez at 100
+timer.textContent = timeRemaining; // timer is initialized at 100;
 showTimer.append(timerHeader);
 showTimer.append(timer);
 header.appendChild(showTimer);
-showHighScore.textContent = "View High Score";
-showHighScore.setAttribute("href", "./");
-header.appendChild(showHighScore);
 
-// This container will show the content of the quiz challenge dynamically
+// This container will shows the loading page
 var container = document.createElement("div");
-container.setAttribute("class", "container");
+container.setAttribute("class", "container"); // .container class has a generic style
 main.appendChild(container);
 
 // This is the main header
@@ -144,10 +139,11 @@ startBtn.setAttribute("class", "button");
 startBtn.addEventListener("click", startQuiz);
 
 function startQuiz() {
-  let index = 0;
+  container.setAttribute("class", "hide"); // Hides the landing page message;
+  let index = 0; //index set at 0;
   let hasAnswered = false;
-  container.setAttribute("class", "hide");
-  setTimer();
+
+  // setTimer();
   askQuestions(index, hasAnswered);
 }
 
@@ -156,14 +152,65 @@ function setTimer() {
     timeRemaining--;
     timer.textContent = timeRemaining;
 
-    if (timeRemaining === 0) {
-      clearInterval(quizInterval);
-    } else if (questionsAnswered === 0) {
+    if (timeRemaining === 0 || questionsRemaining === 0) {
       clearInterval(quizInterval);
     }
     // main.removeChild(questContainer);
     console.log(`Game Over`);
   }, 1000);
+}
+
+// function askQuestions(index, hasAnswered) {
+//   if (index < 10) {
+//     var questContainer = document.createElement("div");
+//     main.appendChild(questContainer);
+//     questContainer.setAttribute("class", "container");
+//     var showQuestion = document.createElement("h2"); // p tag to show questions.
+//     showQuestion.textContent = questionsList[index].question;
+//     questContainer.appendChild(showQuestion);
+
+//     for (let i = 0; i < 4; i++) {
+//       var answer = document.createElement("button");
+//       answer.textContent = questionsList[index].options[i];
+//       answer.addEventListener("click", (e) => {
+//         validateAnswer(e, index, hasAnswered, questContainer);
+//       });
+//       questContainer.appendChild(answer);
+//     }
+//     hasAnswered = false;
+//   }
+// }
+function showQuestion(index) {
+  if (index < 10) {
+    let questContainer = document.createElement("div");
+    let question = document.createElement("h3");
+    
+    main.appendChild(questContainer);
+    question.textContent = questionsList[index].question;
+    questContainer.appendChild(question);
+    for(let i = 0; i < questionsList[index].options.length; i++){
+      let choices = document.createElement("p");
+    }
+  }
+}
+
+// Validates user's choice to match the correct option, and deduct score/timer-value, removes the questContainer,
+function validateAnswer(element, index, hasAnswered, questContainer) {
+  console.log(`index from validaion`, index);
+  console.log(`inside validation fucntion`, questionsList[index].correctAns);
+  if (element.textContent === questionsList[index].correctAns) {
+  } else if (timeRemaining >= 15) {
+    timeRemaining -= 15;
+    timer.textContent = timeRemaining;
+  } else {
+    timer.textContent = timeRemaining;
+  }
+
+  main.removeChild(questContainer); // removes the questContainer dynamically
+  hasAnswered = true; // changes flag to boolean to move on to the next question
+  index++; // adds 1 to the index
+  questionsRemaining--; // keeps a track of questions answered.
+  hasAnswered ? askQuestions(index, hasAnswered) : ""; // calls askQuestion to show the next question in line
 }
 
 function askQuestions(index, hasAnswered) {
@@ -178,28 +225,16 @@ function askQuestions(index, hasAnswered) {
     for (let i = 0; i < 4; i++) {
       var answer = document.createElement("button");
       answer.textContent = questionsList[index].options[i];
-      answer.addEventListener("click", (e) => {
-        validateAnswer(e, index, hasAnswered, questContainer);
-      });
+      answer.setAttribute("class", "choice");
       questContainer.appendChild(answer);
     }
+    questContainer.addEventListener("click", (e, index, hasAnswered) => {
+      var element = e.target;
+      if (element.matches(".choice")) {
+        alert("clicked");
+        validateAnswer(element, index, hasAnswered, questContainer);
+      }
+    });
     hasAnswered = false;
   }
-}
-
-// Validates user's choice to match the correct option, and deduct score/timer-value, removes the questContainer,
-function validateAnswer(e, index, hasAnswered, questContainer) {
-  if (e.target.textContent === questionsList[index].correctAns) {
-  } else if (timeRemaining >= 15) {
-    timeRemaining -= 15;
-    timer.textContent = timeRemaining;
-  } else {
-    timer.textContent = timeRemaining;
-  }
-
-  main.removeChild(questContainer); // removes the questContainer dynamically
-  hasAnswered = true; // changes flag to boolean to move on to the next question
-  index++; // adds 1 to the index
-  questionsAnswered--; // keeps a track of questions answered.
-  askQuestions(index, hasAnswered); // calls askQuestion to show the next question in line
 }

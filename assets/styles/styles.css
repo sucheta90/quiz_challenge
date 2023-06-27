@@ -1,3 +1,9 @@
+:root {
+  --dark: #240245;
+  --black: black;
+  --light: #e4dafa;
+  --white: #fff;
+}
 .container {
   margin: 0 auto;
   display: flex;
@@ -8,6 +14,13 @@
   margin-top: 3em;
   text-align: center;
 }
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2em;
+}
 .timer {
   display: flex;
 }
@@ -16,8 +29,26 @@
   display: none;
 }
 .button {
-  background-color: #240245;
+  background-color: var(--dark);
+  color: #fff;
+  padding: 0.5em 1.2em;
+  border: none;
+  border-radius: 5px;
+}
+
+.choice {
+  width: 40%;
+  background-color: #460b80;
   color: #fff;
   font-weight: 600;
-  padding: 0.25em 1em;
+  margin-bottom: 1em;
+  border: none;
+  padding: 0.6em 1em;
+  border-radius: 5px;
+}
+
+.choice:hover {
+  background-color: var(--white);
+  color: #240245;
+  box-shadow: 0 4px 3px grey;
 }
