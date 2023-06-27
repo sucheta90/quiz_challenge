@@ -6,12 +6,16 @@ var showHighScore = document.createElement("a"); // HighScore link
 var showTimer = document.createElement("span"); // timer span
 var timerHeader = document.createElement("h3"); // timer headiing
 var timer = document.createElement("h3"); // actual timer
-let timeRemaining = 100; // tracks timer
+let timeRemaining = 90; // tracks timer
 let finalScore = timeRemaining;
 let questionsAnswered = 0;
+let endGame = false;
+var rightMessage = document.createElement("h3");
+var wrongMessage = document.createElement("h3");
 
-body.setAttribute("style", "color: #240220; background-color: #e4dafa");
-
+//setting message text
+rightMessage.textContent = `Right ! 👍 `;
+wrongMessage.textContent = `Wrong! 👎 `;
 // All questions
 let questionsList = [
   {
@@ -156,14 +160,13 @@ function setTimer() {
     timeRemaining--;
     timer.textContent = timeRemaining;
 
-    if (timeRemaining === 0 || questionsAnswered === 10) {
-      console.log(`Game Over`);
+    if (timeRemaining === 0 || questionsAnswered === 10 || endGame) {
+      clearInterval(quizInterval);
       body.removeChild(main);
       var gameOverMessage = document.createElement("h1");
       gameOverMessage.textContent = "Game Over";
       gameOverMessage.setAttribute("style", "text-align: center");
       body.appendChild(gameOverMessage);
-      clearInterval(quizInterval);
     }
   }, 1000);
 }
@@ -195,9 +198,8 @@ function validateAnswer(e, index, hasAnswered, questContainer) {
   if (e.target.textContent === questionsList[index].correctAns) {
   } else if (timeRemaining >= 15) {
     timeRemaining -= 15;
-    timer.textContent = timeRemaining;
   } else {
-    timer.textContent = timeRemaining;
+    endGame = true;
   }
 
   main.removeChild(questContainer); // removes the questContainer dynamically
