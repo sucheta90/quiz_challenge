@@ -8,7 +8,7 @@ var timerHeader = document.createElement("h3"); // timer headiing
 var timer = document.createElement("h3"); // actual timer
 let timeRemaining = 100; // tracks timer
 let finalScore = timeRemaining;
-let questionsAnswered = 10;
+let questionsAnswered = 0;
 
 body.setAttribute("style", "color: #240220; background-color: #e4dafa");
 
@@ -156,18 +156,20 @@ function setTimer() {
     timeRemaining--;
     timer.textContent = timeRemaining;
 
-    if (timeRemaining === 0) {
-      clearInterval(quizInterval);
-    } else if (questionsAnswered === 0) {
+    if (timeRemaining === 0 || questionsAnswered === 10) {
+      console.log(`Game Over`);
+      body.removeChild(main);
+      var gameOverMessage = document.createElement("h1");
+      gameOverMessage.textContent = "Game Over";
+      gameOverMessage.setAttribute("style", "text-align: center");
+      body.appendChild(gameOverMessage);
       clearInterval(quizInterval);
     }
-    // main.removeChild(questContainer);
-    console.log(`Game Over`);
   }, 1000);
 }
 
 function askQuestions(index, hasAnswered) {
-  if (index < 10) {
+  if (index < 10 && timeRemaining > 0) {
     var questContainer = document.createElement("div");
     main.appendChild(questContainer);
     questContainer.setAttribute("class", "container");
@@ -178,13 +180,14 @@ function askQuestions(index, hasAnswered) {
     for (let i = 0; i < 4; i++) {
       var answer = document.createElement("button");
       answer.textContent = questionsList[index].options[i];
+      answer.setAttribute("class", "choice");
       answer.addEventListener("click", (e) => {
         validateAnswer(e, index, hasAnswered, questContainer);
       });
       questContainer.appendChild(answer);
     }
-    hasAnswered = false;
   }
+  hasAnswered = false;
 }
 
 // Validates user's choice to match the correct option, and deduct score/timer-value, removes the questContainer,
@@ -200,6 +203,6 @@ function validateAnswer(e, index, hasAnswered, questContainer) {
   main.removeChild(questContainer); // removes the questContainer dynamically
   hasAnswered = true; // changes flag to boolean to move on to the next question
   index++; // adds 1 to the index
-  questionsAnswered--; // keeps a track of questions answered.
+  questionsAnswered++; // keeps a track of questions answered.
   askQuestions(index, hasAnswered); // calls askQuestion to show the next question in line
 }
