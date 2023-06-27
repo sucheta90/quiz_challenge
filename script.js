@@ -6,12 +6,16 @@ var showHighScore = document.createElement("a"); // HighScore link
 var showTimer = document.createElement("span"); // timer span
 var timerHeader = document.createElement("h3"); // timer headiing
 var timer = document.createElement("h3"); // actual timer
+var rightMessage = document.createElement("h3");
+var wrongMessage = document.createElement("h3");
 let timeRemaining = 100; // tracks timer
 let finalScore = timeRemaining;
 let questionsAnswered = 0;
+let playersInfo=[];
 
-body.setAttribute("style", "color: #240220; background-color: #e4dafa");
-
+//setting message text
+rightMessage.textContent = `Right ! 👍 `;
+wrongMessage.textContent = `Wrong! 👎 `;
 // All questions
 let questionsList = [
   {
@@ -112,7 +116,7 @@ header.appendChild(showHighScore);
 //Timer section
 showTimer.setAttribute("class", "timer");
 timerHeader.textContent = "Timer: ";
-timer.textContent = timeRemaining; // timer is initialez at 100
+timer.textContent = 0; // timer is initialez at 100
 showTimer.append(timerHeader);
 showTimer.append(timer);
 header.appendChild(showTimer);
@@ -144,31 +148,32 @@ startBtn.setAttribute("class", "button");
 startBtn.addEventListener("click", startQuiz);
 
 function startQuiz() {
+  timer.innerText = timeRemaining;
   let index = 0;
-  let hasAnswered = false;
   container.setAttribute("class", "hide");
   setTimer();
-  askQuestions(index, hasAnswered);
+  askQuestions(index);
 }
 
+// This fuction sets the interval, tracks the timer/timeRemaining and clears Interval if the questions answered is 10 or timeremaininig is 0
 function setTimer() {
   var quizInterval = setInterval(() => {
     timeRemaining--;
     timer.textContent = timeRemaining;
 
     if (timeRemaining === 0 || questionsAnswered === 10) {
+      clearInterval(quizInterval);
       console.log(`Game Over`);
-      body.removeChild(main);
       var gameOverMessage = document.createElement("h1");
       gameOverMessage.textContent = "Game Over";
       gameOverMessage.setAttribute("style", "text-align: center");
-      body.appendChild(gameOverMessage);
-      clearInterval(quizInterval);
+      main.innerHTML = "";
+      main.appendChild(gameOverMessage);
     }
   }, 1000);
 }
 
-function askQuestions(index, hasAnswered) {
+function askQuestions(index) {
   if (index < 10 && timeRemaining > 0) {
     var questContainer = document.createElement("div");
     main.appendChild(questContainer);
@@ -182,27 +187,28 @@ function askQuestions(index, hasAnswered) {
       answer.textContent = questionsList[index].options[i];
       answer.setAttribute("class", "choice");
       answer.addEventListener("click", (e) => {
-        validateAnswer(e, index, hasAnswered, questContainer);
+        validateAnswer(e, index);
       });
       questContainer.appendChild(answer);
     }
   }
-  hasAnswered = false;
 }
 
 // Validates user's choice to match the correct option, and deduct score/timer-value, removes the questContainer,
-function validateAnswer(e, index, hasAnswered, questContainer) {
-  if (e.target.textContent === questionsList[index].correctAns) {
+function validateAnswer(e, index) {
+  if (e.target.innerText === questionsList[index].correctAns) {
+    console.log("correct ans");
   } else if (timeRemaining >= 15) {
     timeRemaining -= 15;
     timer.textContent = timeRemaining;
-  } else {
-    timer.textContent = timeRemaining;
   }
-
-  main.removeChild(questContainer); // removes the questContainer dynamically
+  main.innerHTML = ""; // removes the questContainer dynamically
   hasAnswered = true; // changes flag to boolean to move on to the next question
   index++; // adds 1 to the index
   questionsAnswered++; // keeps a track of questions answered.
   askQuestions(index, hasAnswered); // calls askQuestion to show the next question in line
+}
+
+function setScore(){
+
 }
