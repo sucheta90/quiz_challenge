@@ -4,6 +4,7 @@
   --light: #e4dafa;
   --white: #fff;
   --darkText: #240220;
+  --list-color: #460b80;
 }
 body {
   color: var(--darkText);
@@ -91,4 +92,27 @@ footer {
 h3 {
   margin-bottom: 0;
   padding-bottom: 0;
+}
+#all_scores {
+  text-align: center;
+  margin: 0 auto;
+  height: 100%;
+  border: 1px solid red;
+}
+#score_board {
+  display: flex;
+  color: var(--darkText);
+  flex-direction: column;
+  width: 60%;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100%;
+}
+#score_board li {
+  border-radius: 5px;
+  width: 80%;
+  background-color: var(--white);
+  color: var(--darkText);
+  margin-bottom: 1em;
 }

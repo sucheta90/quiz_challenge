@@ -3,12 +3,13 @@ var header = document.body.children[0]; // Header
 var main = document.body.children[1]; // Main
 var footer = document.body.children[2]; // footer
 var showHighScore = document.createElement("a"); // HighScore link
-var showTimer = document.createElement("span"); // timer span
-var timerHeader = document.createElement("h3"); // timer headiing
-var timer = document.createElement("h3"); // actual timer
+var timer = document.getElementById("timer");
 let timeRemaining = 90; // tracks timer
 let questionsAnswered = 0; // tracks number of questions answered
+// let scoreBoardBody = document.getElementById("all_scores-body");
+// scoreBoardBody.header;
 let scoreBoard = document.getElementById("score_board"); // to show the scoreBoard
+
 let scoreKeeper = [];
 
 // All questions
@@ -107,19 +108,8 @@ let score = document.getElementById("score");
 let playerInfoForm = document.getElementById("playerInfoForm"); // form on submit will setItem to localStorage
 let playerName = document.getElementById("playerName");
 
-//Child elements inside Header
-//Anchor tag to show high score
-showHighScore.textContent = "View High Scores";
-showHighScore.setAttribute("href", "gameStat");
-header.appendChild(showHighScore);
-
 //Timer section
-showTimer.setAttribute("class", "timer");
-timerHeader.textContent = "Timer: ";
 timer.textContent = 0; // timer is initialez at 100
-showTimer.append(timerHeader);
-showTimer.append(timer);
-header.appendChild(showTimer);
 
 // This container will show the content of the quiz challenge dynamically
 var container = document.createElement("div");
@@ -230,9 +220,7 @@ function validateAnswer(e, index, questContainer) {
   askQuestions(index, hasAnswered); // calls askQuestion to show the next question in line
 }
 
-// function setScore() {}
 
-// function renderScore() {}
 
 function gameOver() {
   score.innerHTML = timeRemaining > 0 ? timeRemaining : 0;

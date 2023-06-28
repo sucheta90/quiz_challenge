@@ -7,7 +7,13 @@
     <title>Quiz Challenge</title>
   </head>
   <body>
-    <header></header>
+    <header>
+      <a href="./scoreBoard.html">View High Scores</a>
+      <span class="timer">
+        <h3>Timer:</h3>
+        <h3 id="timer"></h3>
+      </span>
+    </header>
     <main>
       <div id="gameStat" hidden>
         <h1>Game Over!!!</h1>
@@ -27,11 +33,6 @@
         <p>Wrong!</p>
         <hr />
       </span>
-      <section id="all_scores">
-        <ol id="score_board"></ol>
-        <button>Go Back</button>
-        <botton>Clear High Scores</botton>
-      </section>
     </main>
     <footer>&copy; All rights reserved</footer>
     <script src="./script.js"></script>
