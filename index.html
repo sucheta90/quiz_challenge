@@ -3,7 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./assets/styles/styles.css" rel="stylesheet" />
     <title>Quiz Challenge</title>
   </head>
-  <body></body>
+  <body>
+    <header>
+      <a id="showHighScore">View High Scores</a>
+      <span class="timer">
+        <h3>Timer:</h3>
+        <h3 id="timer"></h3>
+      </span>
+    </header>
+    <main>
+      <div id="gameStat" hidden>
+        <h1>Game Over!!!</h1>
+        <h3>Your score is <span id="score"></span></h3>
+        <form action="" id="playerInfoForm">
+          <label for="playerName">Your Name:</label>
+          <input type="text" placeholder="Your Name" id="playerName" />
+          <button class="button">Save</button>
+        </form>
+      </div>
+      <section id="all_scores" hidden>
+        <h1>High Scores</h1>
+        <ol id="score_board"></ol>
+        <a href="./index.html"><button class="button">Go Back</button></a>
+        <button class="button" id="clearStorage">Clear High Scores</button>
+      </section>
+
+      <span id="correct" hidden>
+        <p>Correct!</p>
+        <hr />
+      </span>
+      <span id="wrong" hidden>
+        <p>Wrong!</p>
+        <hr />
+      </span>
+    </main>
+    <footer>&copy; All rights reserved</footer>
+    <script src="./script.js"></script>
+  </body>
 </html>
