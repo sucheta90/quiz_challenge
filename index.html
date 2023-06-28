@@ -8,7 +8,27 @@
   </head>
   <body>
     <header></header>
-    <main></main>
+    <main>
+      <div id="gameStat" hidden>
+        <h1>Game Over!!!</h1>
+        <h3>Your score is <span id="score"></span></h3>
+        <form action="" id="playerInfoForm">
+          <label for="playerName">Your Name:</label>
+          <input type="text" placeholder="Your Name" id="playerName" />
+          <button class="button">Save</button>
+        </form>
+
+        <!-- <ul id="score_board"></ul> -->
+      </div>
+      <span id="correct" hidden>
+        <p>Correct!</p>
+        <hr />
+      </span>
+      <span id="wrong" hidden>
+        <p>Wrong!</p>
+        <hr />
+      </span>
+    </main>
     <footer>&copy; All rights reserved</footer>
     <script src="./script.js"></script>
   </body>
