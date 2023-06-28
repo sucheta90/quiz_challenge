@@ -41,9 +41,8 @@ header {
 #correct,
 #wrong {
   position: relative;
-  top: 25em;
+  top: 30em;
   width: 50%;
-  border: 1px solid red;
   text-align: center;
 }
 hr {
@@ -97,7 +96,7 @@ h3 {
   text-align: center;
   margin: 0 auto;
   height: 100%;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 #score_board {
   display: flex;
@@ -115,4 +114,8 @@ h3 {
   background-color: var(--white);
   color: var(--darkText);
   margin-bottom: 1em;
+}
+#showHighScore {
+  font-weight: 600;
+  cursor: pointer;
 }

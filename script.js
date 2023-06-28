@@ -2,13 +2,14 @@ var body = document.body; // The body element
 var header = document.body.children[0]; // Header
 var main = document.body.children[1]; // Main
 var footer = document.body.children[2]; // footer
-var showHighScore = document.createElement("a"); // HighScore link
 var timer = document.getElementById("timer");
+var showHighScore = document.getElementById("showHighScore");
 let timeRemaining = 90; // tracks timer
 let questionsAnswered = 0; // tracks number of questions answered
-// let scoreBoardBody = document.getElementById("all_scores-body");
-// scoreBoardBody.header;
 let scoreBoard = document.getElementById("score_board"); // to show the scoreBoard
+showHighScore.addEventListener("click", showScoreBoard);
+let clearStorage = document.getElementById("clearStorage"); // button to clear local storage
+clearStorage.addEventListener("click", clearLocalStorage);
 
 let scoreKeeper = [];
 
@@ -220,8 +221,7 @@ function validateAnswer(e, index, questContainer) {
   askQuestions(index, hasAnswered); // calls askQuestion to show the next question in line
 }
 
-
-
+// Ends teh game and prompts the user for name/initials and stores the score in the local storage
 function gameOver() {
   score.innerHTML = timeRemaining > 0 ? timeRemaining : 0;
   gameStat.removeAttribute("hidden");
@@ -235,7 +235,27 @@ function gameOver() {
     console.log(scoreKeeper);
     playerName.value = "";
     showScoreOnApp();
+    showScoreBoard();
   });
 }
+// Shows the score after the name submission or on click event on the View High Score link
+function showScoreBoard() {
+  let allElement = main.children;
+  for (let i = 0; i < allElement.length; i++) {
+    allElement[i].setAttribute("hidden", true);
+  }
+  let all_scores = document.getElementById("all_scores");
+  var element = document.querySelector(".container");
+  element.setAttribute("style", "display:none");
+  all_scores.removeAttribute("hidden");
+  console.log(allElement);
+  console.log(all_scores);
+}
 
-init();
+//Clears local storage and reloads the html
+function clearLocalStorage() {
+  localStorage.clear();
+  location.reload("./");
+}
+
+init(); //Extracts the player's scores from the local storage on page load
