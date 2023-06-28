@@ -109,7 +109,7 @@ let playerName = document.getElementById("playerName");
 
 //Child elements inside Header
 //Anchor tag to show high score
-showHighScore.innerText = "View High Scores";
+showHighScore.textContent = "View High Scores";
 showHighScore.setAttribute("href", "gameStat");
 header.appendChild(showHighScore);
 
@@ -120,9 +120,6 @@ timer.textContent = 0; // timer is initialez at 100
 showTimer.append(timerHeader);
 showTimer.append(timer);
 header.appendChild(showTimer);
-showHighScore.textContent = "View High Score";
-showHighScore.setAttribute("href", "./");
-header.appendChild(showHighScore);
 
 // This container will show the content of the quiz challenge dynamically
 var container = document.createElement("div");
@@ -147,9 +144,29 @@ container.appendChild(startBtn);
 startBtn.setAttribute("class", "button");
 startBtn.addEventListener("click", startQuiz);
 
+// gets the persisting data from the local storage
+function init() {
+  let prevScores = JSON.parse(localStorage.getItem("scores"));
+  if (prevScores !== null) {
+    scoreKeeper = prevScores;
+  }
+  showScoreOnApp();
+}
+
+//This function renders the score on the browser by dynamically creating an ordered list
+function showScoreOnApp() {
+  scoreBoard.innerHTML = "";
+  for (let i = 0; i < scoreKeeper.length; i++) {
+    let playerScore = scoreKeeper[i];
+    let li = document.createElement("li");
+    li.textContent = playerScore;
+    scoreBoard.appendChild(li);
+  }
+}
+
 //The fuction called on click event, fired by the start button
 function startQuiz() {
-  timer.innerText = timeRemaining;
+  timer.innerText = timeRemaining; // on start quiz sets timer inner text to equal timeRemaining
   let index = 0;
   container.setAttribute("class", "hide");
   setTimer();
@@ -223,20 +240,14 @@ function gameOver() {
   gameStat.setAttribute("class", "container");
   playerInfoForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    let user = {
-      playerName: playerName.value,
-      score: score.innerHTML,
-    };
-    // scoreKeeper.push(user);
-    // let scores = JSON.stringify(user);
-    localStorage.setItem(`${user.playerName}`, user.score);
+    let user = `${playerName.value} - ${score.textContent}`;
+    scoreKeeper.push(user);
+    let scores = JSON.stringify(scoreKeeper);
+    localStorage.setItem("scores", scores);
     console.log(scoreKeeper);
     playerName.value = "";
-    getScores();
+    showScoreOnApp();
   });
 }
 
-function getScores() {
-  var prevScores = JSON.parse(localStorage.getItem("scores"));
-  console.log(prevScores);
-}
+init();
