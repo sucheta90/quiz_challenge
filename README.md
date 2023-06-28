@@ -1,65 +1,50 @@
-# <Your-Project-Title>
+# Code Quiz Challenge
 
 ## Description
 
-Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
+If you're seeking to grasp the basic principles of HTML, CSS, and JavaScript, you can enhance your understanding through this timed code quiz challenge. The quiz begins with a timer set at 90 seconds and consists of ten questions, each offering four options to choose from. For every incorrect answer, 15 seconds are deducted from the timer. The game concludes when one of the following conditions is met:
 
-- What was your motivation?
-- Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
-- What problem does it solve?
-- What did you learn?
-
-## Table of Contents (Optional)
-
-If your README is long, add a table of contents to make it easy for users to find what they need.
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Credits](#credits)
-- [License](#license)
+1. The user responds to all ten questions.
+2. The timer reaches 0.
 
 ## Installation
 
-What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running.
+This application is web-based, eliminating the need for any installation process.
 
 ## Usage
 
-Provide instructions and examples for use. Include screenshots as needed.
+Screenshots shots from the app.
 
-To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
-
-    ```md
-    ![alt text](assets/images/screenshot.png)
-    ```
+<p align="center">
+<img src='./assets/images/screencapture-127-0-0-1-5500-index-html-2023-06-28-17_55_15.png' alt="app screenshot"  width='33.33%'>
+<img src='./assets/images/screencapture-127-0-0-1-5500-index-html-2023-06-28-17_55_39.png' alt="app screenshot" width='33.33%'>
+<img src='./assets/images/screencapture-127-0-0-1-5500-index-html-2023-06-28-17_55_54.png' alt="app screenshot" width='33.33%'>
+<img src='./assets/images/screencapture-127-0-0-1-5500-index-html-2023-06-28-17_56_29.png' alt="app screenshot" width='33.33%'>
+</p>
 
 ## Credits
 
-List your collaborators, if any, with links to their GitHub profiles.
+All the questions in this application have been sourced from the HTML, CSS, and JavaScript quizzes provided by w3Schools.
 
-If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section.
-
-If you followed tutorials, include links to those here as well.
-
-## License
-
-The last section of a high-quality README file is the license. This lets other developers know what they can and cannot do with your project. If you need help choosing a license, refer to [https://choosealicense.com/](https://choosealicense.com/).
-
----
-
-🏆 The previous sections are the bare minimum, and your project will ultimately determine the content of this document. You might also want to consider adding the following sections.
+- [W3Schools](https://www.w3schools.com/quiztest/)
 
 ## Badges
 
-![badmath](https://img.shields.io/github/languages/top/lernantino/badmath)
-
-Badges aren't necessary, per se, but they demonstrate street cred. Badges let other developers know that you know what you're doing. Check out the badges hosted by [shields.io](https://shields.io/). You may not understand what they all represent now, but you will in time.
+<p>
+<img src='./assets/images/Screenshot%202023-06-28%20at%206.08.43%20PM.png' alt="html" width="10%"> 
+<br/>
+<img src='./assets/images/Screenshot%202023-06-28%20at%206.09.47%20PM.png' alt="css" width="10%">
+<br/>
+<img src='./assets/images/Screenshot%202023-06-28%20at%206.09.06%20PM.png' alt="js"  width="10%">
+</p>
 
 ## Features
 
-If your project has a lot of features, list them here.
+- The app has the ability to identify the right and wrong answers.
+- Can persist data, like name or initials and scores.
+- User can delete the hight score data at theor own will.
 
-## How to Contribute
+## Important Links
 
-If you created an application or package and would like other developers to contribute it, you can include guidelines for how to do so. The [Contributor Covenant](https://www.contributor-covenant.org/) is an industry standard, but you can always write your own if you'd prefer.
-
-## Tests
+- [Github Repository](https://github.com/sucheta90/quiz_challenge)
+- [Live Site](https://sucheta90.github.io/quiz_challenge/)
